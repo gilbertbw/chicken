@@ -172,6 +172,32 @@ public class MafiaChickenServer implements IMafiaChickenServer {
 	}
 
 	@Override
+	public void serverStart(String xmlName) {
+		if(!serverStarted) {
+			serverStarted = true;
+		}
+	}
+
+	@Override
+	public void serverStart(int maxPlayers, int redCost, int yellowCost, int blueCost, int totalTerritory, int startCoinAmount) {
+		if(!serverStarted) {
+			this.maxPlayers = maxPlayers;
+			this.players = new Client[this.maxPlayers];
+			this.redCost = redCost;
+			this.yellowCost = yellowCost;
+			this.blueCost = blueCost;
+			this.totalTerritory = totalTerritory;
+			this.startCoinAmount = startCoinAmount;
+			serverStarted = true;
+		}
+	}
+
+	@Override
+	public void serverStop(String xmlName) {
+		
+	}
+
+	@Override
 	public int serverInfoRedCost() {
 		return redCost;
 	}
@@ -208,29 +234,6 @@ public class MafiaChickenServer implements IMafiaChickenServer {
 	@Override
 	public String serverInfoChat() {
 		return chat;
-	}
-	
-	public void serverStart(String xmlName) {
-		if(!serverStarted) {
-			serverStarted = true;
-		}
-	}
-
-	public void serverStart(int maxPlayers, int redCost, int yellowCost, int blueCost, int totalTerritory, int startCoinAmount) {
-		if(!serverStarted) {
-			this.maxPlayers = maxPlayers;
-			this.players = new Client[this.maxPlayers];
-			this.redCost = redCost;
-			this.yellowCost = yellowCost;
-			this.blueCost = blueCost;
-			this.totalTerritory = totalTerritory;
-			this.startCoinAmount = startCoinAmount;
-			serverStarted = true;
-		}
-	}
-
-	public void serverStop(String xmlName) {
-		
 	}
 	
 }

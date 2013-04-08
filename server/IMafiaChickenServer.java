@@ -33,6 +33,11 @@ public interface IMafiaChickenServer {
 	@WebMethod public int clientInfoCoinAmount(String usrnm);
 	@WebMethod public int clientInfoTerritoryAmount(String usrnm);
 	
+	//server start and stop methods
+	@WebMethod public void serverStart(String xmlName);
+	@WebMethod public void serverStart(int maxPlayers, int redCost, int yellowCost, int blueCost, int territoryAmount, int startCoinAmount);
+	@WebMethod public void serverStop(String xmlName);
+	
 	//server info methods
 	@WebMethod public int serverInfoRedCost();
 	@WebMethod public int serverInfoYellowCost();

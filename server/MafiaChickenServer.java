@@ -17,15 +17,13 @@ public class MafiaChickenServer implements IMafiaChickenServer {
 	
 	@Override
 	public void playerConnect(String usrnm) {
-		playerConnectLoop:
 		for(int i = 0; i < players.length; i++) {
 			if(usrnm.equals(players[i].username)) {
-				
-				break playerConnectLoop;
+				return;
 			}
 			if(players[i] == null) {
 				players[i] = new Client(usrnm, startCoinAmount);
-				break playerConnectLoop;
+				return;
 			}
 		}
 	}
@@ -53,14 +51,13 @@ public class MafiaChickenServer implements IMafiaChickenServer {
 
 	@Override
 	public void clientRequestBuyRed(String usrnm) {
-		clientRequestBuyRedLoop:
 		for(int i = 0; i < players.length; i++) {
-			if(players[i] == null) break clientRequestBuyRedLoop;
+			if(players[i] == null) return;
 			else {
 				if(usrnm.equals(players[i].username)) {
 					players[i].coinAmount -= redCost;
 					players[i].redAmount++;
-					break clientRequestBuyRedLoop;
+					return;
 				}
 			}
 		}
@@ -68,14 +65,13 @@ public class MafiaChickenServer implements IMafiaChickenServer {
 
 	@Override
 	public void clientRequestBuyYellow(String usrnm) {
-		clientRequestBuyYellowLoop:
 		for(int i = 0; i < players.length; i++) {
-			if(players[i] == null) break clientRequestBuyYellowLoop;
+			if(players[i] == null) return;
 			else {
 				if(usrnm.equals(players[i].username)) {
 					players[i].coinAmount -= yellowCost;
 					players[i].yellowAmount++;
-					break clientRequestBuyYellowLoop;
+					return;
 				}
 			}
 		}
@@ -83,14 +79,13 @@ public class MafiaChickenServer implements IMafiaChickenServer {
 
 	@Override
 	public void clientRequestBuyBlue(String usrnm) {
-		clientRequestBuyBlueLoop:
 		for(int i = 0; i < players.length; i++) {
-			if(players[i] == null) break clientRequestBuyBlueLoop;
+			if(players[i] == null) return;
 			else {
 				if(usrnm.equals(players[i].username)) {
 					players[i].coinAmount -= blueCost;
 					players[i].blueAmount++;
-					break clientRequestBuyBlueLoop;
+					return;
 				}
 			}
 		}
@@ -98,7 +93,27 @@ public class MafiaChickenServer implements IMafiaChickenServer {
 
 	@Override
 	public void clientRequestAttack(String usrnm, String targetUsrnm) {
-		
+		int index = 0;
+		int targetIndex = players.length + 1;
+		clientRequestAttackLoop:
+		for(int i = 0; i < players.length; i++) {
+			if(players[i] == null) break clientRequestAttackLoop;
+			if(usrnm.equals(players[i].username)) index = i;
+			if(targetUsrnm.equals(players[i].username)) targetIndex = i;
+		}
+		if(targetIndex != players.length + 1) {
+			//makes variables containing the target's chickens before the attack
+			int targetRed = players[targetIndex].redAmount;
+			int targetYellow = players[targetIndex].yellowAmount;
+			int targetBlue = players[targetIndex].blueAmount;
+			//the attack
+			players[targetIndex].redAmount -= players[index].redAmount;
+			players[index].redAmount -= targetRed;
+			players[targetIndex].yellowAmount -= players[index].yellowAmount;
+			players[index].yellowAmount -= targetYellow;
+			players[targetIndex].blueAmount -= players[index].blueAmount;
+			players[index].blueAmount -= targetBlue;
+		}
 	}
 
 	@Override

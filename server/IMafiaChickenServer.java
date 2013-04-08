@@ -10,15 +10,13 @@ import javax.jws.soap.SOAPBinding.Style;
 
 public interface IMafiaChickenServer {
 	
-	//client connect and disconnect methods
-	@WebMethod public void clientConnect(String usrnm);
-	@WebMethod public void clientDisconnect(String usrnm);
+	//player connect method
+	@WebMethod public void playerConnect(String usrnm);
 	
-	//client list methods
-	@WebMethod public Client[] clientList();
-	@WebMethod public int clientAmount();
-	@WebMethod public int maxClientAmount();
-	@WebMethod public void setMaxClientAmount(int amount);
+	//player list methods
+	@WebMethod public Client[] playerList();
+	@WebMethod public int playerAmount();
+	@WebMethod public int maxPlayerAmount();
 	
 	//client request methods
 	@WebMethod public void clientRequestChat(String usrnm, String message);
@@ -36,8 +34,9 @@ public interface IMafiaChickenServer {
 	@WebMethod public int clientInfoTerritoryAmount(String usrnm);
 	
 	//server start and stop methods
-	@WebMethod public void serverStart();
-	@WebMethod public void serverStop();
+	@WebMethod public void serverStart(String xmlName);
+	@WebMethod public void serverStart(int maxPlayers, int redCost, int yellowCost, int blueCost, int territoryAmount, int startCoinAmount);
+	@WebMethod public void serverStop(String xmlName);
 	
 	//server info methods
 	@WebMethod public int serverInfoRedCost();
@@ -46,5 +45,7 @@ public interface IMafiaChickenServer {
 	
 	@WebMethod public int serverInfoCoinAmount();
 	@WebMethod public int serverInfoTerritoryAmount();
+	
+	@WebMethod public String serverInfoChat();
 
 }
